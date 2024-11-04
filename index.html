@@ -4,13 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chess Game</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
     .hidden {
       display: none;
     }
 
-    /* Styling for the startup screen */
+    /* Startup screen styling */
     #startup-screen {
       display: flex;
       justify-content: center;
@@ -20,7 +22,7 @@
       background-color: #f0f0f0;
     }
 
-    /* Styling for the menu screen to cover full viewport */
+    /* Menu screen styling */
     #menu-container {
       display: none;
       flex-direction: column;
@@ -34,13 +36,7 @@
       left: 0;
     }
 
-    button {
-      margin: 10px;
-      padding: 10px 20px;
-      font-size: 1.2em;
-    }
-
-    /* Game container styling */
+    /* Chessboard and score styling */
     #game-container {
       display: none;
       justify-content: center;
@@ -49,150 +45,84 @@
     }
 
     #chessboard {
-      width: 400px;
-      height: 400px;
+      width: 100%; /* Width will be controlled by the Bootstrap column size */
+      aspect-ratio: 1; /* Maintain a square aspect ratio */
       border: 1px solid black;
       position: relative;
     }
 
-    #score-container {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      margin-top: 20px;
-    }
-
-    #captured-pieces {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-left: 20px;
-      margin-right: 20px;
-    }
-
-    /* Responsive breakpoints */
-    /* Large screens (desktops, laptops) */
-    @media (min-width: 1200px) {
-      #chessboard {
-        width: 600px;
-        height: 600px;
-      }
-      button {
-        font-size: 1.5em;
-      }
-    }
-
-    /* Medium screens (tablets) */
-    @media (min-width: 768px) and (max-width: 1199px) {
-      #chessboard {
-        width: 500px;
-        height: 500px;
-      }
-      button {
-        font-size: 1.4em;
-      }
-    }
-
-    /* Small screens (Samsung Galaxy A series, other small devices) */
-    @media (min-width: 360px) and (max-width: 767px) {
-      #chessboard {
-        width: 300px;
-        height: 300px;
-      }
-      #menu-container h2, #turn-indicator {
-        font-size: 1.2em;
-      }
-      button {
-        font-size: 1em;
-        padding: 8px 15px;
-      }
-      #score-container {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
-    /* Extra small screens (smaller phones) */
-    @media (max-width: 359px) {
-      #chessboard {
-        width: 250px;
-        height: 250px;
-      }
-      #menu-container h2, #turn-indicator {
-        font-size: 1em;
-      }
-      button {
-        font-size: 0.9em;
-        padding: 6px 12px;
-      }
-      #score-container {
-        flex-direction: column;
-        align-items: center;
-      }
+    #captured-pieces h3 {
+      font-size: 1.2em;
     }
   </style>
 </head>
 <body>
-    <!-- Startup Screen -->
-    <div id="startup-screen">
-      <img src="classic-chess-image.png" alt="Classic Chess Image">
-    </div>
+  <!-- Startup Screen -->
+  <div id="startup-screen">
+    <img src="classic-chess-image.png" alt="Classic Chess Image" class="img-fluid">
+  </div>
 
-    <!-- Menu Screen -->
-    <div id="menu-container">
-      <h2>Welcome to Chess Game</h2>
-      <button onclick="startGame()">Start Game</button>
-      <button onclick="showInstructions()">Instructions</button>
-    </div>
+  <!-- Menu Screen -->
+  <div id="menu-container">
+    <h2>Welcome to Chess Game</h2>
+    <button class="btn btn-primary my-2" onclick="startGame()">Start Game</button>
+    <button class="btn btn-secondary my-2" onclick="showInstructions()">Instructions</button>
+  </div>
 
-    <!-- Game Elements -->
-    <div id="game-container">
-      <div id="turn-indicator" style="font-size: 1.5em; margin-bottom: 10px;">Current Turn: White</div>
-      <div id="score-container">
-        <div id="white-score">White: 0</div>
-        <div id="captured-pieces">
-          <h3>Captured Pieces</h3>
-          <div id="captured-white" style="margin-bottom: 10px;">White: []</div>
-          <div id="captured-black">Black: []</div>
-        </div>
-        <div id="black-score">Black: 0</div>
+  <!-- Game Elements -->
+  <div id="game-container" class="container text-center">
+    <div id="turn-indicator" class="fs-4 mb-3">Current Turn: White</div>
+    <div id="score-container" class="row">
+      <div id="white-score" class="col-md-3 mb-3">White: 0</div>
+      <div id="captured-pieces" class="col-md-6">
+        <h3>Captured Pieces</h3>
+        <div id="captured-white" class="mb-2">White: []</div>
+        <div id="captured-black">Black: []</div>
       </div>
-      <div id="chessboard"></div>
+      <div id="black-score" class="col-md-3 mb-3">Black: 0</div>
     </div>
+    <div class="row justify-content-center">
+      <div id="chessboard" class="col-12 col-md-6 col-lg-4"></div>
+    </div>
+  </div>
 
-    <script src="js/pieces.js"></script>
-    <script src="js/chessboard.js"></script>
-    <script src="js/gameLogic.js"></script>
-    <script>
-      // JavaScript to manage screen transitions
-      window.addEventListener("load", () => {
-        console.log("Page loaded, displaying startup screen.");
-        setTimeout(() => {
-            console.log("Hiding startup screen, showing menu screen.");
-            document.getElementById("startup-screen").style.display = "none";
-            document.getElementById("menu-container").style.display = "flex";
-        }, 5000);
-      });
+  <!-- Bootstrap and JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script src="js/pieces.js"></script>
+  <script src="js/chessboard.js"></script>
+  <script src="js/gameLogic.js"></script>
+  <script>
+    // JavaScript to manage screen transitions
+    window.addEventListener("load", () => {
+      console.log("Page loaded, displaying startup screen.");
+      // Show startup screen for 5 seconds, then transition to the menu screen
+      setTimeout(() => {
+          console.log("Hiding startup screen, showing menu screen.");
+          document.getElementById("startup-screen").style.display = "none";
+          document.getElementById("menu-container").style.display = "flex";
+      }, 5000);
+    });
 
-      function startGame() {
-        document.getElementById("menu-container").style.display = "none";
-        document.getElementById("game-container").style.display = "flex";
-      }
+    function startGame() {
+      document.getElementById("menu-container").style.display = "none";
+      document.getElementById("game-container").style.display = "flex";
+    }
 
-      function showInstructions() {
-        alert("Chess Instructions:\n1. Move pieces according to the rules...\n2. Capture opponent's king to win!");
-      }
+    function showInstructions() {
+      alert("Chess Instructions:\n1. Move pieces according to the rules...\n2. Capture opponent's king to win!");
+    }
 
-      function updateGameStatus(capturedWhite, capturedBlack, whiteScore, blackScore) {
-          document.getElementById("captured-white").innerText = `White: [${capturedWhite.join(", ")}]`;
-          document.getElementById("captured-black").innerText = `Black: [${capturedBlack.join(", ")}]`;
-          document.getElementById("white-score").innerText = `White: ${whiteScore}`;
-          document.getElementById("black-score").innerText = `Black: ${blackScore}`;
-      }
+    function updateGameStatus(capturedWhite, capturedBlack, whiteScore, blackScore) {
+      document.getElementById("captured-white").innerText = `White: [${capturedWhite.join(", ")}]`;
+      document.getElementById("captured-black").innerText = `Black: [${capturedBlack.join(", ")}]`;
+      document.getElementById("white-score").innerText = `White: ${whiteScore}`;
+      document.getElementById("black-score").innerText = `Black: ${blackScore}`;
+    }
 
-      const exampleCapturedWhite = ['Pawn', 'Knight'];
-      const exampleCapturedBlack = ['Bishop', 'Rook'];
-      updateGameStatus(exampleCapturedWhite, exampleCapturedBlack, 2, 1);
-    </script>
+    const exampleCapturedWhite = ['Pawn', 'Knight'];
+    const exampleCapturedBlack = ['Bishop', 'Rook'];
+    updateGameStatus(exampleCapturedWhite, exampleCapturedBlack, 2, 1);
+  </script>
 </body>
 </html>
