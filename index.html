@@ -20,7 +20,7 @@
       background-color: #f0f0f0;
     }
 
-    /* Styling for the menu screen */
+    /* Styling for the menu screen to cover full viewport */
     #menu-container {
       display: none;
       flex-direction: column;
@@ -34,16 +34,23 @@
       left: 0;
     }
 
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1.2em;
+    }
+
     /* Game container styling */
     #game-container {
       display: none;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 10px;
+      padding: 20px;
     }
 
     #chessboard {
+      width: 400px;
+      height: 400px;
       border: 1px solid black;
       position: relative;
     }
@@ -59,75 +66,68 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 10px;
+      margin-left: 20px;
+      margin-right: 20px;
     }
 
-    /* Responsive styling */
-    /* Extra small devices (phones, ≤576px) */
-    @media (max-width: 576px) {
-      button {
-        font-size: 1em;
-        padding: 8px 15px;
-      }
-
+    /* Responsive breakpoints */
+    /* Large screens (desktops, laptops) */
+    @media (min-width: 1200px) {
       #chessboard {
-        width: 250px;
-        height: 250px;
+        width: 600px;
+        height: 600px;
       }
-
-      #turn-indicator, #score-container div {
-        font-size: 0.9em;
+      button {
+        font-size: 1.5em;
       }
     }
 
-    /* Small devices (tablets, ≤768px) */
-    @media (max-width: 768px) {
-      button {
-        font-size: 1.1em;
-        padding: 9px 18px;
+    /* Medium screens (tablets) */
+    @media (min-width: 768px) and (max-width: 1199px) {
+      #chessboard {
+        width: 500px;
+        height: 500px;
       }
+      button {
+        font-size: 1.4em;
+      }
+    }
 
+    /* Small screens (Samsung Galaxy A series, other small devices) */
+    @media (min-width: 360px) and (max-width: 767px) {
       #chessboard {
         width: 300px;
         height: 300px;
       }
+      #menu-container h2, #turn-indicator {
+        font-size: 1.2em;
+      }
+      button {
+        font-size: 1em;
+        padding: 8px 15px;
+      }
+      #score-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
 
-      #turn-indicator, #score-container div {
+    /* Extra small screens (smaller phones) */
+    @media (max-width: 359px) {
+      #chessboard {
+        width: 250px;
+        height: 250px;
+      }
+      #menu-container h2, #turn-indicator {
         font-size: 1em;
       }
-    }
-
-    /* Medium devices (desktops, ≤992px) */
-    @media (max-width: 992px) {
       button {
-        font-size: 1.2em;
-        padding: 10px 20px;
+        font-size: 0.9em;
+        padding: 6px 12px;
       }
-
-      #chessboard {
-        width: 350px;
-        height: 350px;
-      }
-
-      #turn-indicator, #score-container div {
-        font-size: 1.1em;
-      }
-    }
-
-    /* Large devices (≥1200px) */
-    @media (min-width: 1200px) {
-      button {
-        font-size: 1.3em;
-        padding: 12px 24px;
-      }
-
-      #chessboard {
-        width: 400px;
-        height: 400px;
-      }
-
-      #turn-indicator, #score-container div {
-        font-size: 1.2em;
+      #score-container {
+        flex-direction: column;
+        align-items: center;
       }
     }
   </style>
@@ -147,7 +147,7 @@
 
     <!-- Game Elements -->
     <div id="game-container">
-      <div id="turn-indicator" style="margin-bottom: 10px;">Current Turn: White</div>
+      <div id="turn-indicator" style="font-size: 1.5em; margin-bottom: 10px;">Current Turn: White</div>
       <div id="score-container">
         <div id="white-score">White: 0</div>
         <div id="captured-pieces">
@@ -166,7 +166,9 @@
     <script>
       // JavaScript to manage screen transitions
       window.addEventListener("load", () => {
+        console.log("Page loaded, displaying startup screen.");
         setTimeout(() => {
+            console.log("Hiding startup screen, showing menu screen.");
             document.getElementById("startup-screen").style.display = "none";
             document.getElementById("menu-container").style.display = "flex";
         }, 5000);
@@ -181,7 +183,6 @@
         alert("Chess Instructions:\n1. Move pieces according to the rules...\n2. Capture opponent's king to win!");
       }
 
-      // Function to update scores and captured pieces
       function updateGameStatus(capturedWhite, capturedBlack, whiteScore, blackScore) {
           document.getElementById("captured-white").innerText = `White: [${capturedWhite.join(", ")}]`;
           document.getElementById("captured-black").innerText = `Black: [${capturedBlack.join(", ")}]`;
@@ -189,7 +190,6 @@
           document.getElementById("black-score").innerText = `Black: ${blackScore}`;
       }
 
-      // Example: Update the game status after some moves
       const exampleCapturedWhite = ['Pawn', 'Knight'];
       const exampleCapturedBlack = ['Bishop', 'Rook'];
       updateGameStatus(exampleCapturedWhite, exampleCapturedBlack, 2, 1);
